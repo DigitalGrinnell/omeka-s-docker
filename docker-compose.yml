@@ -1,0 +1,89 @@
+version: "2"
+
+## This is a modified copy of dodeeric's original docker-compose-traefik.yml with
+## localhost addresses of:
+##
+##   - omeka.localdomain
+##   - pma.localdomain
+##   - gramps.localdomain
+##
+## These addresses need to be defined/enabled locally with an entry in /etc/hosts of:
+##
+##    ### For omeka-s-docker
+##    127.0.0.1    localhost omeka.localdomain pma.localdomain gramps.localdomain
+##
+
+services:
+
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    networks:
+      - network1
+    volumes:
+      - mariadb:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: blabla
+      MYSQL_DATABASE: omeka
+      MYSQL_USER: omeka
+      MYSQL_PASSWORD: omeka
+
+  pma:
+    depends_on:
+      - mariadb
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    networks:
+      - network1
+    links:
+      - mariadb:db
+    labels:
+      - "traefik.backend=pma"
+      - "traefik.frontend.rule=Host:pma.localdomain"
+
+  omeka:
+    depends_on:
+      - mariadb
+    image: dodeeric/omeka-s:latest
+    restart: always
+    networks:
+      - network1
+    links:
+      - mariadb:db
+    volumes:
+      - omeka:/var/www/html/volume
+    labels:
+      - "traefik.backend=omeka"
+      - "traefik.frontend.rule=Host:omeka.localdomain"
+
+  gramps:
+    image: httpd:latest
+    restart: always
+    networks:
+      - network1
+    volumes:
+      - gramps:/usr/local/apache2/htdocs
+    labels:
+      - "traefik.backend=gramps"
+      - "traefik.frontend.rule=Host:gramps.localdomain"
+
+  traefik:
+    image: traefik:latest
+    restart: always
+    networks:
+      - network1
+    command: --web --docker --docker.domain=localdomain
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  mariadb:
+  omeka:
+  gramps:
+
+networks:
+  network1:
