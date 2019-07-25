@@ -1,8 +1,13 @@
 # Omeka-S in Docker containers
 
+| Grinnell College modifications to this project... |
+| --- |
+| ...are documented in https://static.grinnell.edu/blogs/McFateM/posts/030-dockerized-omeka-s-starting-over/. |
+| This includes "Docksal-ization" of the Omeka-S stack! |
+
 ## Launch the containers
 
-Install Docker and Docker-compose on your host (can be a physical or virtual machine). 
+Install Docker and Docker-compose on your host (can be a physical or virtual machine).
 
 Download the file "docker-compose.yml".
 
@@ -14,7 +19,7 @@ $ sudo docker-compose up -d
 
 This will deploy three Docker containers:
 
-- Container 1: mariadb (mysql) 
+- Container 1: mariadb (mysql)
 - Container 2: phpmyadmin (connected to container 1)
 - Container 3: omeka-s (connected to container 1)
 
@@ -39,7 +44,7 @@ $ sudo docker-compose stop
 To remove the containers:
 
 ```
-$ sudo docker-compose rm 
+$ sudo docker-compose rm
 ```
 
 Remark: this will NOT delete the volumes (omeka and mariadb). If you launch again "sudo docker-compose up -d", the volumes will be re-used.
@@ -47,7 +52,7 @@ Remark: this will NOT delete the volumes (omeka and mariadb). If you launch agai
 To login into a container:
 
 ```
-$ sudo docker container exec -it <container-id-or-name> bash 
+$ sudo docker container exec -it <container-id-or-name> bash
 ```
 
 ## Build a new image (optional)
@@ -80,7 +85,7 @@ $ sudo docker image push foo/omeka-s:1.0.1-bar
 $ sudo docker image push foo/omeka-s:latest
 ```
 
-## Use Traefik as proxy (optional) 
+## Use Traefik as proxy (optional)
 
 If you want to access all your web services on port 80 (or 443), you can use the Traefik reverse proxy and load balancer.
 

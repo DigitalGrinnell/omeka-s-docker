@@ -1,0 +1,10 @@
+#prompts-table td:first-of-type {
+    display: flex;
+}
+#prompts-table td:last-of-type {
+    min-width: 4em;
+}
+
+#prompts-table .actions {
+    padding-left: 0;
+}

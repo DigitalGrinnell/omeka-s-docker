@@ -1,0 +1,80 @@
+<?php
+$form->prepare();
+$this->htmlElement('body')->appendAttribute('class', 'no-section-hashes');
+$escapeHtml = $this->plugin('escapeHtml');
+$this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 'DspaceConnector'));
+?>
+
+<?php echo $this->pageTitle($this->translate('Dspace Connector'), 1, $this->translate('Import options')); ?>
+
+<nav class="section-nav">
+    <ul>
+        <li class="active"><a href="#basic-settings"><?php echo $this->translate('Basic import settings'); ?></a></li>
+        <li><a href="#collections"><?php echo $this->translate('Collections'); ?></a></li>
+        <li><a href="#communities"><?php echo $this->translate('Communities'); ?></a></li>
+    </ul>
+</nav>
+<?php echo $this->form()->openTag($form); ?>
+<fieldset id="basic-settings" class="section active">
+    <?php echo $this->formCollection($form, false); ?>
+</fieldset>
+
+<fieldset id="collections" class="section">
+    <table>
+        <tbody>
+            <?php foreach($collections as $collection): ?>
+            <tr class="collection">
+                <td class="name">
+                    <button class='import-collection' name='collection_link' value='<?php echo $collection['link']; ?>'><?php echo $this->escapeHtml($this->translate('Import collection')); ?></button>
+                </td>
+                <td>
+                    <span class="name"><?php echo $collection['name']; ?></span>
+                </td>
+                <?php if (isset($collection['description'])): ?>
+                <td class="description"><?php echo $collection['description']; ?></td>
+                <?php else: ?>
+                <td class="description"><?php echo $this->translate('[No description given]'); ?></td>
+                <?php endif; ?>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</fieldset>
+
+<fieldset id="communities" class="section">
+    <table>
+        <tbody>
+            <?php foreach($communities as $community): ?>
+            <tr class="community">
+                <th class="name"><?php echo($community['name']); ?></th>
+                <?php if(isset($community['description'])): ?>
+                <th class="description"><?php echo($community['description']);?></th>
+                <?php else: ?>
+                <th class="description"><?php echo $this->translate('[No description given]'); ?></th>
+                <?php endif;?>
+            </tr>
+
+                <?php foreach($community['collections'] as $collection): ?>
+                <tr class="collection">
+                    <td>
+                        <button class='import-collection' name='collection_link' value='<?php echo $collection['link']; ?>'><?php echo $this->escapeHtml($this->translate('Import collection')); ?></button>
+                    </td>
+                    <td class="name">
+                        <span class="name"><?php echo $collection['name']; ?></span>
+                    </td>
+                    <?php if (isset($collection['description'])): ?>
+                    <td class="description"><?php echo $collection['description']; ?></td>
+                    <?php else: ?>
+                    <td class="description"><?php echo $this->translate('[No description given]'); ?></td>
+                    <?php endif; ?>
+                </tr>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</fieldset>
+
+<input type='hidden' name='api_url' value='<?php echo $dspace_url; ?>' ></input>
+<input type='hidden' name='limit' value='<?php echo $limit; ?>' ></input>
+<?php echo $this->form()->closeTag($form); ?>
+

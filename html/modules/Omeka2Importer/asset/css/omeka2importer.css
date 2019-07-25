@@ -1,0 +1,66 @@
+.omeka2-import-fieldset-label {
+    display: block;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-bottom-width: 0.1875em;
+    border-bottom-style: solid;
+    padding-bottom: 0.1875em;
+    margin-bottom: 0.375em;
+    font-size: 125%;
+}
+
+.omeka2-import-fieldset-label .collapse,
+.omeka2-import-fieldset-label .expand {
+    display: block;
+    float: right;
+}
+
+#select-item-set {
+    height: 100px;
+}
+
+thead th {
+    padding: 6px .5em;
+}
+
+tbody th {
+    font-weight: normal;
+    font-size: 20px;
+    padding: 6px .4em;
+}
+
+tr.mappable td {
+    background-color: rgba(0,0,0, .08);
+    vertical-align: top;
+}
+
+tr.active {
+    background-color: rgba(0,0,0, .16);
+}
+
+tr.mappable td:first-child {
+    max-width: 40%;
+}
+
+tr.mappable td:nth-child(2) {
+    width: 40%;
+}
+
+ul.mappings {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li.mapping {
+    margin: 3px 0 0 0;
+    display: flex;
+}
+
+li.mapping:first-child {
+    margin-top: 0;
+}
+
+li.mapping.delete {
+    background-color: #fcc;
+}
+

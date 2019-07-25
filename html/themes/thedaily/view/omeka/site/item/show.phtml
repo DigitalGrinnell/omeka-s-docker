@@ -1,0 +1,109 @@
+<?php 
+$escape = $this->plugin('escapeHtml');
+$this->htmlElement('body')->appendAttribute('class', 'item resource show');
+$this->headScript()->prependFile($this->assetUrl('js/lightslider.min.js'));
+$this->headScript()->prependFile($this->assetUrl('js/lightgallery.min.js'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/lightgallery.min.css'));
+$this->headLink()->prependStylesheet($this->assetUrl('css/lightslider.min.css'));
+$lightMedia = [];
+$otherMedia = [];
+$sortedSubjects = [];
+$subjectValues = $item->subjectValues();
+?>
+<?php foreach ($item->media() as $media): ?>
+    <?php $mediaType = $media->mediaType(); ?>
+    <?php $mediaRenderer = $media->renderer(); ?>
+    <?php if ((strpos($mediaType, 'image') !== false) || (strpos($mediaRenderer, 'youtube') !== false)): ?>
+        <?php $lightMedia[] = $media; ?>
+    <?php else: ?>
+        <?php $otherMedia[] = $media; ?>
+    <?php endif; ?>
+<?php endforeach; ?>
+
+<?php echo $this->pageTitle($item->displayTitle(), 2); ?>
+<h3><?php echo $this->translate('Item'); ?></h3>
+<?php $this->trigger('view.show.before'); ?>
+<?php if ($item->media()): ?>
+<ul id="itemfiles" class="media-list">
+    <?php foreach ($lightMedia as $media): ?>
+        <?php $source = ($media->originalUrl()) ? $media->originalUrl() : $media->source(); ?>
+        <li data-src="<?php echo $source; ?>" data-thumb="<?php echo $escape($media->thumbnailUrl('medium')); ?>" class="media resource">
+            <?php echo $media->render(); ?>
+        </li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+<?php echo $item->displayValues(); ?>
+
+<?php if (count($otherMedia) > 0): ?>
+<div id="other-media" class="property">
+    <h4><?php echo $this->translate('Other Media'); ?></h4>
+    <?php foreach($otherMedia as $media): ?>
+    <div class="value">
+        <?php echo $media->linkPretty(); ?>
+    </div>
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>
+
+<div class="property">
+    <?php $itemSets = $item->itemSets(); ?>
+    <?php if (count($itemSets) > 0): ?>
+    <h4><?php echo $this->translate('Item sets'); ?></h4>
+    <?php foreach ($item->itemSets() as $itemSet): ?>
+    <div class="value"><a href="<?php echo $escape($itemSet->url()); ?>"><?php echo $itemSet->displayTitle(); ?></a></div>
+    <?php endforeach; ?>
+    <?php endif; ?>
+</div>
+
+<?php
+$page = $this->params()->fromQuery('page', 1);
+$property = $this->params()->fromQuery('property');
+$subjectValues = $item->displaySubjectValues($page, 25, $property);
+?>
+<?php if ($subjectValues): ?>
+<div id="item-linked">
+    <h3><?php echo $this->translate('Linked resources'); ?></h3>
+    <?php echo $subjectValues; ?>
+</div>
+<?php endif; ?>
+
+<?php $this->trigger('view.show.after'); ?>
+<script src="<?php echo $this->assetUrl('js/lg-video.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo $this->assetUrl('js/lg-zoom.js'); ?>" type="text/javascript"></script>
+
+<script>
+    jQuery(document).ready(function() {
+      $('#itemfiles').lightSlider({
+          mode: 'fade',
+          autoWidth: true,
+          adaptiveHeight:false,
+          gallery:true,
+          item:1,
+          loop:true,
+          thumbItem:15,
+          slideMargin:0,
+          enableDrag: false,
+          currentPagerPosition:'middle',
+          onSliderLoad: function(el) {
+              el.lightGallery({
+                  selector: '#itemfiles .media',
+                  download: false,
+                  zoom: true,
+                  youtubePlayerParams: {
+                      modestbranding: 1,
+                      showinfo: 0,
+                      rel: 0,
+                      controls: 1
+                  },
+                  vimeoPlayerParams: {
+                      byline : 0,
+                      portrait : 0,
+                      color : 'A90707'     
+                  },
+              });
+          }   
+      });  
+    });
+</script>

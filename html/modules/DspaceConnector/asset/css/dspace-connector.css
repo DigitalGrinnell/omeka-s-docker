@@ -1,0 +1,20 @@
+tbody th {
+    padding: 6px .5em;
+}
+
+tr.community:not(:first-child) th {
+    padding-top: 24px;
+}
+
+th.description p {
+    margin: 0px;
+}
+
+tr.in-community {
+    position: relative;
+    left: 2%;
+}
+
+button.import-collection {
+    margin: 0 12px 0 0;
+}

@@ -1,0 +1,36 @@
+<?php $escape = $this->plugin('escapeHtml'); ?>
+<?php $tag = $resource; ?>
+<div class="resource-details" data-resource-values="<?php //echo $escape($values); ?>">
+    <h3 class="o-module-folksonomy-tag"><?php echo $tag->link($tag->name()); ?></h3>
+    <div class="meta-group">
+        <h4><?php echo $escape($this->translate('Tag')); ?></h4>
+        <div class="value">
+            <span class="tag-name"><?php echo $this->hyperlink($tag->name(), $tag->urlResources()); ?></span>
+        </div>
+    </div>
+    <div class="meta-group">
+        <h4><?php echo $escape($this->translate('Internal id')); ?></h4>
+        <div class="value">
+            <span class="tag-internal-id"><?php echo $tag->internalId(); ?></span>
+        </div>
+    </div>
+    <div class="meta-group">
+        <h4><?php echo $escape($this->translate('Stats')); ?></h4>
+        <div class="value"><?php echo sprintf('%s: %s',
+            $escape($this->translate('Total')),
+            $tagCount['count']);
+        ?></div>
+        <div class="value"><?php echo sprintf('%s: %s',
+            $escape($this->translate('Item sets')),
+            $this->hyperlink($tagCount['item_sets'], $tag->urlResources('item-set')));
+        ?></div>
+        <div class="value"><?php echo sprintf('%s: %s',
+            $escape($this->translate('Items')),
+            $this->hyperlink($tagCount['items'], $tag->urlResources('item')));
+        ?></div>
+        <div class="value"><?php echo sprintf('%s: %s',
+            $escape($this->translate('Medias')),
+            $this->hyperlink($tagCount['media'], $tag->urlResources('media')));
+        ?></div>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+@prefix : <http://omeka.org/s/vocabs/o-module-extracttext#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:extracted_text a rdf:Property ;
+    rdfs:label "extracted text"@en ;
+    rdfs:comment "Text extracted from a resource."@en .

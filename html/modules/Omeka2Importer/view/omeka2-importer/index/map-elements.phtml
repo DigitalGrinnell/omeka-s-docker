@@ -1,0 +1,120 @@
+<?php
+$form->prepare();
+$escapeHtml = $this->plugin('escapeHtml');
+$this->headScript()->appendFile($this->assetUrl('js/omeka2importer.js', 'Omeka2Importer'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/omeka2importer.css', 'Omeka2Importer'));
+$this->htmlElement('body')->appendAttribute('class', 'sidebar-open');
+$escape = $this->plugin('escapeHtml');
+$backUrl = $this->url('admin/omeka2importer');
+
+?>
+<?php echo $this->pageTitle($this->translate('Omeka 2 Importer'), 1, $this->translate('Import Settings')); ?>
+
+<?php echo $this->form()->openTag($form); ?>
+<fieldset id='page-actions'>
+    <a class='button' href='<?php echo $backUrl ?>'><?php echo $this->translate('Start Over'); ?></a>
+    <input type='submit' value='<?php echo $this->translate("Import");?>' />
+</fieldset>
+<nav class="section-nav">
+    <ul>
+        <li class="active"><a href="#omeka2-import-basics-fieldset"><?php echo $escape($this->translate('Basic Import Settings')); ?></a></li>
+        <li><a href="#omeka2-import-elements-map-fieldset"><?php echo $escape($this->translate('Map to Omeka S Properties')); ?></a></li>
+        <li><a href="#omeka2-import-types-map-fieldset"><?php echo $escape($this->translate('Map to Omeka S Classes')); ?></a></li>
+    </ul>
+</nav>
+<input name='endpoint' value='<?php echo $endpoint; ?>' type='hidden' />
+
+<fieldset id="omeka2-import-basics-fieldset" class="section active">
+    <?php echo $this->formCollection($form, false); ?>
+</fieldset>
+
+<fieldset id="omeka2-import-elements-map-fieldset" class="section">
+    <button id='elements-clear-defaults' class='clear-defaults'><?php echo $escape($this->translate("Clear Defaults")); ?></button>
+    <table>
+        <thead>
+            <tr>
+                <th><?php echo $escape($this->translate("Omeka 2 element")); ?></th>
+                <th><?php echo $escape($this->translate("Mapped properties")); ?></th>
+                <th><?php echo $escape($this->translate("Import as HTML media")); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($elementsData as $name=>$elementSet): ?>
+            <tr class="element-set">
+                <th class="omeka2-importer element-set" colspan="3"><?php echo $name; ?></th>
+            </tr>
+            <?php foreach ($elementSet as $element): ?>
+            <tr class="element mappable" data-element-id="<?php echo $element['id']; ?>">
+                <td><?php echo $element['name'];?></td>
+                <td class="mapping element">
+                    <ul class="mappings elements">
+                    <?php if(array_key_exists($name, $elementDefaultMap)
+                             && array_key_exists($element['name'], $elementDefaultMap[$name])):?>
+                        <li class='mapping default' data-property-id='<?php echo $elementDefaultMap[$name][$element['name']]['propertyId']; ?>'>
+                            <?php echo $this->translate($elementDefaultMap[$name][$element['name']]['propertyLabel']); ?>
+                            <ul class="actions">
+                                <li>
+                                    <a aria-label="<?php echo $escape($this->translate('Remove mapping')); ?>" title="<?php echo $escape($this->translate('Remove mapping')); ?>" class="o-icon-delete remove-mapping" href="#" style="display: inline;"></a>
+                                </li>
+                                <li>
+                                    <a aria-label="<?php echo $escape($this->translate('Undo remove mapping')); ?>" title="<?php echo $escape($this->translate('Undo remove mapping')); ?>" class="o-icon-undo restore-mapping" href="#" style="display: none;"></a>
+                                </li>
+                            </ul>
+                            <input type='hidden' name='element-property[<?php echo $element['id']; ?>][]' value='<?php echo $elementDefaultMap[$name][$element['name']]['propertyId']; ?>' />
+                        </li>
+                    <?php endif; ?>
+                    </ul>
+                </td>
+                <td>
+                    <input type="checkbox" name="html-element[<?php echo $element['id']; ?>]"></input>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <?php
+    echo $this->propertySelector($this->translate('Select property to map. Click an Omeka 2 element as the target, then select the properties for it.'), true);
+    ?>
+</fieldset>
+
+<fieldset id="omeka2-import-types-map-fieldset" class="section">
+    <p>
+        <?php echo $escape($this->translate('Items can have only one resource class. Clicking more than one resource class for an item type will replace it.')); ?>
+    </p>
+    <button id='types-clear-defaults' class='clear-defaults'><?php echo $escape($this->translate("Clear defaults")); ?></button>
+    <table>
+        <thead>
+            <tr>
+                <th><?php echo $escape($this->translate('Item Type')); ?></th>
+                <th><?php echo $escape($this->translate('Resource Class')); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($itemTypes as $itemType): ?><tr>
+            <tr class="item-type mappable"  data-item-type-id="<?php echo $itemType['id']; ?>" >
+                <td>
+                    <?php echo $itemType['name']; ?>
+                </td>
+                <td class="mapping item-type">
+                    <ul class="mappings item-types">
+                        <?php if(array_key_exists($itemType['name'], $typeDefaultMap)): ?>
+                            <li class='mapping default' data-class-id='<?php echo $typeDefaultMap[$itemType['name']]['classId']; ?>'>
+                                <?php echo $this->translate($typeDefaultMap[$itemType['name']]['classLabel']); ?>
+                                <ul class="actions"><li><a aria-label="<?php echo $escape($this->translate('Remove mapping')); ?>" title="<?php echo $escape($this->translate('Remove mapping')); ?>" class="o-icon-delete remove-mapping" href="#" style="display: inline;"></a></li><li><a aria-label="<?php echo $escape($this->translate('Undo remove mapping')); ?>" title="<?php echo $escape($this->translate('Undo remove mapping'));?>" class="o-icon-undo restore-mapping" href="#" style="display: none;"></a></li></ul>
+                                <input type='hidden' name='type-class[<?php echo $itemType['id']?>]' value='<?php echo $typeDefaultMap[$itemType['name']]['classId']; ?>' />
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <?php
+    echo $this->resourceClassSelector($this->translate('Select class to map. Click an Omeka 2 item type as the target, then select the resource class for it. Omeka S items can have only one resource class.'), true);
+    ?>
+</fieldset>
+
+<?php echo $this->form()->closeTag($form); ?>

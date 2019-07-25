@@ -1,0 +1,36 @@
+input.xsd-g-year,
+input.xsd-decimal,
+input.xsd-integer {
+    width: 100%;
+}
+.o-icon-rdf-html:before {
+    /* Unavailable in the default config of Omeka. */
+    /* content: "\f13b"; */
+    content: "\f121";
+}
+.o-icon-rdf-xml-literal:before {
+    content: "\f121";
+}
+.o-icon-xsd-boolean:before {
+    content: "\f00c";
+}
+.o-icon-xsd-g-day:before,
+.o-icon-xsd-g-month:before,
+.o-icon-xsd-g-month-day:before,
+.o-icon-xsd-g-year:before,
+.o-icon-xsd-g-year-month:before,
+.o-icon-xsd-date:before {
+    content: "\f073";
+}
+.o-icon-xsd-date-time:before {
+    content: "\f073";
+}
+.o-icon-xsd-decimal:before {
+    content: "\f3d1";
+}
+.o-icon-xsd-integer:before {
+    content: "\f292";
+}
+.o-icon-xsd-time:before {
+    content: "\f017";
+}

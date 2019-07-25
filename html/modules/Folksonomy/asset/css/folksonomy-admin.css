@@ -1,0 +1,184 @@
+@media screen {
+    header nav .folksonomy:before {
+        content:"";
+    }
+    .folksonomy .no-resources:before {
+        content:"";
+    }
+    #tags .property {
+        display: inherit;
+    }
+    #resource-tags .actions {
+        float: right;
+    }
+    #resource-tags.empty,
+    #resource-tags+.no-resources {
+        display:none;
+    }
+    #resource-tags.empty+.no-resources {
+        display:block;
+        padding:0 24px;
+    }
+    #resource-tags.empty+.no-resources:before {
+        content:"";
+    }
+    #resource-tags tr.delete {
+        background-color:#fcc;
+    }
+    .taggings .resource-details .tag-internal-id {
+        font-size: 0.7em;
+    }
+
+    @media (min-width:641px) {
+        .tags.browse table th:nth-child(1n+2),
+        .tags.browse table td:nth-child(1n+2) {
+            text-align: right;
+        }
+        .tags.browse table th:nth-child(1n+2) *,
+        .tags.browse table td:nth-child(1n+2) * {
+            text-align: right;
+            float: right;
+        }
+
+        .taggings.browse table th:first-child,
+        .taggings.browse table td:first-child {
+            max-width: 40%;
+            min-width: 30%;
+            width: 30%;
+        }
+    }
+
+    .folksonomy table .resource-name {
+        display: inline-block;
+        vertical-align: bottom;
+        margin-left: .5em;
+        opacity: .5;
+    }
+
+    .folksonomy .single.actions {
+        float: right;
+    }
+    .folksonomy .single.actions a::before {
+        text-align: inherit;
+    }
+    .folksonomy .single.actions .o-icon-transmit::before {
+        background: url('../img/waiting-mini.gif') no-repeat scroll 3px 3px transparent !important;
+    }
+    .folksonomy .tag-name[contenteditable=true].o-icon-transmit::before,
+    .folksonomy .no-action::before {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        vertical-align: top;
+        border: 0;
+        box-shadow: none;
+        opacity: .5;
+        text-align: inherit;
+    }
+    .folksonomy.meta-group .single.actions,
+    .folksonomy.meta-group .no-action::before {
+        float: right;
+    }
+
+    .folksonomy.meta-group span,
+    .folksonomy .meta-group span {
+        display: inline;
+        hyphens: auto;
+        word-wrap: break-word;
+    }
+
+    .folksonomy.meta-group::before,
+    .folksonomy .status-toggle::before,
+    .folksonomy .resource-name::before {
+        display: inline-block;
+        font-family:"FontAwesome";
+        padding-left: 3px;
+        padding-right: 3px;
+        width: 24px;
+    }
+    .folksonomy .resource-name.resource::before {
+        content: "";
+    }
+    .folksonomy .resource-name.no-resource::before {
+        content: "❌";
+    }
+    .folksonomy .resource-name.item-set::before {
+        content: "";
+    }
+    .folksonomy .resource-name.item::before {
+        content: "";
+    }
+    .folksonomy .resource-name.media::before {
+        content: "";
+    }
+    .folksonomy .o-icon-proposed::before {
+        color: #FFA500;
+        content: "";
+    }
+    .folksonomy .o-icon-allowed::before {
+        color: #FFA500;
+        content: "";
+    }
+    .folksonomy .o-icon-approved::before {
+        color: #00FF00;
+        content: "";
+    }
+    .folksonomy .o-icon-rejected::before {
+        color: #FF0000;
+        content: "";
+    }
+    .folksonomy .o-icon-undefined::before {
+        color: #FF0000;
+        content: "";
+    }
+    .folksonomy .o-icon-none::before {
+        color: #FFFFFF;
+        content: "";
+    }
+    .folksonomy .o-icon-transmit::before {
+        background: url('../img/waiting-mini.gif') no-repeat scroll 12px 3px transparent !important;
+        color: #000000;
+        content: "";
+        cursor: progress;
+    }
+
+    .folksonomy .tag-name[contenteditable="true"] {
+        background: inherit;
+        border: hidden;
+        display: inline-block;
+        min-height: unset;
+        max-height: 3em;
+        padding: inherit;
+        width: 84%;
+    }
+    .folksonomy .tag-name[contenteditable=true]:hover,
+    .folksonomy .tag-name[contenteditable=true]:focus {
+        outline: 1px dotted rgba(0,0,0,0.15);
+    }
+    .folksonomy .tag-name[contenteditable="true"]:active {
+        display: inline;
+        outline: 1px dashed rgba(0,0,0,0.15);
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .folksonomy .tag-name[contenteditable="true"]:active br {
+        display:none;
+    }
+    .folksonomy .tag-name[contenteditable="true"]:active * {
+        display:inline;
+        white-space:nowrap;
+    }
+    .folksonomy .tag-name[contenteditable=true].o-icon-transmit::before {
+        background: url('../img/waiting-mini.gif') no-repeat scroll 3px 3px transparent !important;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    fieldset.section>#resource-tags.empty+.no-resources {
+        display:none;
+    }
+    fieldset.section.mobile-active>#resource-tags.empty+.no-resources {
+        display:block;
+        margin-top:48px;
+    }
+}

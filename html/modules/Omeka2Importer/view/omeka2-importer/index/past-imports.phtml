@@ -1,0 +1,70 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'omeka2importer jobs undo');
+$escape = $this->plugin('escapeHtml');
+?>
+
+<?php echo $this->pageTitle($this->translate('Omeka 2 Import'), 1, $this->translate('Past Imports')); ?>
+<?php if(empty($imports)): ?>
+
+<?php else: ?>
+<?php echo $this->pagination(); ?>
+
+<form method='POST'>
+    <fieldset id='page-actions'>
+        <input type='submit' value='Submit' />
+    </fieldset>
+    <table class="tablesaw" data-tablesaw-mode="stack">
+        <thead>
+            <tr>
+                <th><?php echo $escape($this->translate('Undo?'));?></th>
+                <th><?php echo $this->sortLink($this->translate('Job ID'), 'id');?></th>
+                <th><?php echo $escape($this->translate('Comment'));?></th>
+                <th><?php echo $escape($this->translate('Items'));?></th>
+                <th><?php echo $escape($this->translate('Date'));?></th>
+                <th><?php echo $escape($this->translate('Status'));?></th>
+                <th><?php echo $escape($this->translate('Owner'));?></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($imports as $import): ?>
+        <?php $job = $import->job(); ?>
+        <?php $undoJob = $import->undoJob(); ?>
+        <tr class="<?php echo $undoJob ? 'undone' : ''; ?>" >
+            
+            <td>
+                <?php if (! $undoJob || ! $undoJob->ended()): ?>
+                <input type='checkbox' name='jobs[]' value='<?php echo $job->id(); ?>' />
+                <?php endif; ?>
+            </td>
+            
+            <td><?php echo $job->link($job->id()); ?></td>
+            <td>
+                <?php echo $import->comment(); ?>
+            </td>
+            <td>
+                <?php echo $escape($this->translate('Added: ')) . $import->addedCount(); ?>
+                <?php echo $escape($this->translate('Updated: ')) . $import->updatedCount(); ?>
+            </td>
+            <td><?php echo $escape($this->i18n()->dateFormat($job->started())); ?></td>
+            <td>
+            <?php if ($undoJob) {
+                if ($undoJob->ended()) {
+                    $status = $escape($this->translate('Undone')) . ' ' . $escape($this->i18n()->dateFormat($undoJob->ended())) . ' in job ID ' . $undoJob->id();
+                } else {
+                    $status = $escape($this->translate('Undo in progress'));
+                }
+                
+                
+            } else {
+                $status = $job->status();
+            } 
+            ?>
+            <?php echo $status; ?>
+            </td>
+            <td><?php echo $this->hyperlink($job->owner()->name(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $job->owner()->id()))); ?></td>
+        </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</form>
+<?php endif; ?>

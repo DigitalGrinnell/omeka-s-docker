@@ -1,0 +1,51 @@
+label.numeric-toggle-time.button {
+    display: inline-block;
+    width: auto;
+    padding: 6px;
+    margin: 0;
+}
+
+label.numeric-toggle-time:before {
+    content: "\f017";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 400;
+    margin-right: 6px;
+    text-indent: 0;
+}
+
+.numeric-time-inputs {
+    display: flex;
+    margin-top: 6px;
+}
+
+.numeric-datetime-inputs select {
+    margin: 0;
+    width: auto;
+}
+
+.numeric-datetime-inputs input {
+    min-width: 4em;
+    width: 8em;
+}
+
+.numeric-datetime-inputs input[type="checkbox"] {
+    min-width: 0;
+    margin-right: 0;
+    cursor: pointer;
+}
+
+.numeric-datetime-inputs input:not(:last-child),
+.numeric-datetime-inputs select:not(:last-child) {
+    margin-right: 4px;
+}
+
+#resource-values .numeric-date-inputs {
+    margin-top: 0;
+}
+
+.value[data-data-type="numeric:timestamp"] .input-body,
+.value[data-data-type="numeric:interval"] .input-body,
+.value[data-data-type="numeric:duration"] .input-body,
+.value[data-data-type="numeric:integer"] .input-body {
+    background-color: transparent;
+}
