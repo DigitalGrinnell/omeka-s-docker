@@ -77,15 +77,6 @@ services:
       traefik.port: 80
       # - "traefik.frontend.rule=Host:omeka.localhost"
 
-  solr:
-    networks:
-      - private
-      - public
-    labels:
-      traefik.backend: solr
-      traefik.docker.network traefik_webgateway
-      traefik.port: 80
-
 #   # gramps:
 #   #   image: httpd:latest
 #   #   restart: always
