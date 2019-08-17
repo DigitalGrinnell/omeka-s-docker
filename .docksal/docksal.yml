@@ -7,13 +7,13 @@ version: "2.1"
 
 services:
   # http(s)://VIRTUAL_HOST
-  web:
-    extends:
-      file: ${HOME}/.docksal/stacks/services.yml
-      service: apache
-    depends_on:
-      - cli
-      - omeka
+  # web:
+  #   extends:
+  #     file: ${HOME}/.docksal/stacks/services.yml
+  #     service: apache
+  #   depends_on:
+  #     - cli
+  #     - omeka
 
   mariadb:
     extends:
@@ -51,20 +51,20 @@ services:
     volumes:
       - omeka:/var/www/html
 
-  omeka:
-    depends_on:
-      - mariadb
-    image: dodeeric/omeka-s:latest
-    restart: always
-    # networks:
-    #   - network1
-    ports:
-      - "80:80"
-    links:
-      - mariadb:db
-    volumes:
-      - omeka:/var/www/html/volume
-
+  # omeka:
+  #   depends_on:
+  #     - mariadb
+  #   image: dodeeric/omeka-s:latest
+  #   restart: always
+  #   # networks:
+  #   #   - network1
+  #   ports:
+  #     - "80:80"
+  #   links:
+  #     - mariadb:db
+  #   volumes:
+  #     - omeka:/var/www/html/volume
+  #
 
   ## pma is entirely from https://github.com/dodeeric/omeka-s-docker/blob/master/docker-compose.yml
   pma:
@@ -83,9 +83,9 @@ services:
     extends:
       file: ${HOME}/.docksal/stacks/services.yml
       service: solr
-#      image: docksal/solr:6.6
+    image: docksal/solr:6.6
     ports:
-      - "8983:80"
+      - "8082:8983"
 
 ## entirely from https://github.com/dodeeric/omeka-s-docker/blob/master/docker-compose.yml
 volumes:
