@@ -1,12 +1,10 @@
-# Basic LAMP stack
-# - Apache 2.4
-# - MySQL 5.6
-# - PHP 7.2
-
 version: "2.1"
 
 services:
   # http(s)://VIRTUAL_HOST
+
+  ## This 'web' service should NOT be present in Docksal.  The web server, SSH keys, networking and DNS are all
+  ## taken care of automatically in a Docksal stack, so this becomes redundant and unnecessary.
   # web:
   #   extends:
   #     file: ${HOME}/.docksal/stacks/services.yml
@@ -22,6 +20,8 @@ services:
     ## below from https://github.com/dodeeric/omeka-s-docker/blob/master/docker-compose.yml mariadb service
     image: mariadb:latest
     restart: always
+    ## The next two lines should NOT be present ANYWHERE in Docksal. The web server, SSH keys, networking and DNS
+    ## are all taken care of automatically in a Docksal stack, so this becomes unnecessary throughout the Docksal stack.
     # networks:
     #   - network1
     volumes:
@@ -51,6 +51,9 @@ services:
     volumes:
       - omeka:/var/www/html
 
+  ## This 'omeka' service should NOT be present in Docksal, because it is already present in the `cli` service above.
+  ## Note that `cli` uses the same image as this.  Since 'cli' is built from the Omeka-s image, this service
+  ## becomes redundant, and it in fact gets in the way since both `cli` and `omeka` want to use port 80.
   # omeka:
   #   depends_on:
   #     - mariadb
@@ -92,5 +95,7 @@ volumes:
   mariadb:
   omeka:
 
+## The next two lines should NOT be present in Docksal. The web server, SSH keys, networking and DNS are all
+## taken care of automatically in a Docksal stack, so this becomes unnecessary throughout the Docksal stack.
 # networks:
 #   network1:
