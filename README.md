@@ -1,8 +1,8 @@
-# Omeka-S in Docker containers
+# Omeka-S in Docker Containers
 
-## Launch the containers
+## Launch the Containers
 
-Install Docker and Docker-compose on your host (can be a physical or virtual machine). 
+Install Docker and Docker-compose on your host (can be a physical or virtual machine).
 
 Download the file "docker-compose.yml".
 
@@ -14,7 +14,7 @@ $ sudo docker-compose up -d
 
 This will deploy three Docker containers:
 
-- Container 1: mariadb (mysql) 
+- Container 1: mariadb (mysql)
 - Container 2: phpmyadmin (connected to container 1)
 - Container 3: omeka-s (connected to container 1)
 
@@ -39,7 +39,7 @@ $ sudo docker-compose stop
 To remove the containers:
 
 ```
-$ sudo docker-compose rm 
+$ sudo docker-compose rm
 ```
 
 Remark: this will NOT delete the volumes (omeka and mariadb). If you launch again "sudo docker-compose up -d", the volumes will be re-used.
@@ -47,10 +47,10 @@ Remark: this will NOT delete the volumes (omeka and mariadb). If you launch agai
 To login into a container:
 
 ```
-$ sudo docker container exec -it <container-id-or-name> bash 
+$ sudo docker container exec -it <container-id-or-name> bash
 ```
 
-## Build a new image (optional)
+## Build a New Image (optional)
 
 If you want to modify the omeka-s image (by changing the Dockerfile file), you will need to build a new image:
 
@@ -80,7 +80,7 @@ $ sudo docker image push foo/omeka-s:1.0.1-bar
 $ sudo docker image push foo/omeka-s:latest
 ```
 
-## Use Traefik as proxy (optional) 
+## Use Traefik as Proxy (optional)
 
 If you want to access all your web services on port 80 (or 443), you can use the Traefik reverse proxy and load balancer.
 
@@ -101,3 +101,9 @@ With your browser, go to: (dodeeric.be is replaced by your dns domain; e.g. mydo
 Traefik has a management web interface: http://hostname:8080
 
 Only the Traefik container exposes its TCP ports (80, 443, 8080) on the Docker host; the service containers run on the private "network1" network.
+
+## Add Dumped Data to the Omeka Database
+My command syntax...
+```
+docker exec -i omeka-s-docker_mariadb_1 /bin/bash -c "export TERM=xterm && mysql -uomeka -pomeka omeka" < omeka.sql
+```

@@ -1,8 +1,9 @@
 FROM php:apache
 
 # Omeka-S web publishing platform for digital heritage collections (https://omeka.org/s/)
-# Initial maintainer: Oldrich Vykydal (o1da) - Klokan Technologies GmbH  
-MAINTAINER Eric Dodemont <eric.dodemont@skynet.be>
+# Initial maintainer: Oldrich Vykydal (o1da) - Klokan Technologies GmbH
+# Forked from MAINTAINER Eric Dodemont <eric.dodemont@skynet.be>
+MAINTAINER Mark McFate <mcfatem@grinnell.edu>
 
 RUN a2enmod rewrite
 
@@ -23,7 +24,7 @@ RUN apt-get -qq update && apt-get -qq -y --no-install-recommends install \
 # Install the PHP extensions we need
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql mysqli gd
-RUN pecl install mcrypt-1.0.2 && docker-php-ext-enable mcrypt && pecl install imagick && docker-php-ext-enable imagick 
+RUN pecl install mcrypt-1.0.2 && docker-php-ext-enable mcrypt && pecl install imagick && docker-php-ext-enable imagick
 
 # Add the Omeka-S PHP code
 COPY ./omeka-s-1.4.0.zip /var/www/
@@ -41,12 +42,19 @@ RUN rm -rf /var/www/html/modules/ \
 &&  tar -xzf /var/www/html/omeka-s-modules-v4.tar.gz -C /var/www/html/ \
 &&  rm /var/www/html/omeka-s-modules-v4.tar.gz
 
-# Add some themes
-COPY ./centerrow-v1.4.0.zip ./cozy-v1.3.1.zip ./thedaily-v1.4.0.zip /var/www/html/themes/
-RUN unzip -q /var/www/html/themes/centerrow-v1.4.0.zip -d /var/www/html/themes/ \
+## Add some themes
+#COPY ./centerrow-v1.4.0.zip ./cozy-v1.3.1.zip ./thedaily-v1.4.0.zip /var/www/html/themes/
+#RUN unzip -q /var/www/html/themes/centerrow-v1.4.0.zip -d /var/www/html/themes/ \
+#&&  unzip -q /var/www/html/themes/cozy-v1.3.1.zip -d /var/www/html/themes/ \
+#&&  unzip -q /var/www/html/themes/thedaily-v1.4.0.zip -d /var/www/html/themes/ \
+#&&  rm /var/www/html/themes/centerrow-v1.4.0.zip /var/www/html/themes/cozy-v1.3.1.zip /var/www/html/themes/thedaily-v1.4.0.zip
+
+# Add some themes. MAM: Replacing `centerrow-v1.4.0` from above with `centerrow-master`.
+COPY ./centerrow-master.zip ./cozy-v1.3.1.zip ./thedaily-v1.4.0.zip /var/www/html/themes/
+RUN unzip -q /var/www/html/themes/centerrow-master.zip -d /var/www/html/themes/ \
 &&  unzip -q /var/www/html/themes/cozy-v1.3.1.zip -d /var/www/html/themes/ \
 &&  unzip -q /var/www/html/themes/thedaily-v1.4.0.zip -d /var/www/html/themes/ \
-&&  rm /var/www/html/themes/centerrow-v1.4.0.zip /var/www/html/themes/cozy-v1.3.1.zip /var/www/html/themes/thedaily-v1.4.0.zip
+&&  rm /var/www/html/themes/centerrow-master.zip /var/www/html/themes/cozy-v1.3.1.zip /var/www/html/themes/thedaily-v1.4.0.zip
 
 # Create one volume for files and config
 RUN mkdir -p /var/www/html/volume/config/ && mkdir -p /var/www/html/volume/files/

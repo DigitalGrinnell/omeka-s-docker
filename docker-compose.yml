@@ -5,12 +5,14 @@ version: "2"
 ##
 ##   - omeka.localdomain
 ##   - pma.localdomain
-##   - gramps.localdomain
+##   - solr.localdomain
+##
+## Note that you can also see the Traefik dashboard at http://omeka.localdomain:8080
 ##
 ## These addresses need to be defined/enabled locally with an entry in /etc/hosts of:
 ##
 ##    ### For omeka-s-docker
-##    127.0.0.1    localhost omeka.localdomain pma.localdomain gramps.localdomain
+##    127.0.0.1    localhost omeka.localdomain pma.localdomain solr.localdomain
 ##
 
 services:
@@ -22,11 +24,13 @@ services:
       - network1
     volumes:
       - mariadb:/var/lib/mysql
+#      - ./omeka.sql:/docker-entrypoint-initdb.d/wmi.sql
     environment:
       MYSQL_ROOT_PASSWORD: blabla
       MYSQL_DATABASE: omeka
       MYSQL_USER: omeka
       MYSQL_PASSWORD: omeka
+
 
   pma:
     depends_on:
@@ -44,7 +48,7 @@ services:
   omeka:
     depends_on:
       - mariadb
-    image: dodeeric/omeka-s:latest
+    image: mcfatem/omeka-s:latest
     restart: always
     networks:
       - network1
@@ -56,16 +60,24 @@ services:
       - "traefik.backend=omeka"
       - "traefik.frontend.rule=Host:omeka.localdomain"
 
-  gramps:
-    image: httpd:latest
+  ## Adding solr per `Using Docker Compose` example at https://docs.docker.com/samples/library/solr/
+  solr:
+    image: solr
     restart: always
     networks:
       - network1
+    # ports:           # MAM: `ports` is not required since we have traefik.port mapped to Solr's 8983 below.
+    #   - "8983:8983"
     volumes:
-      - gramps:/usr/local/apache2/htdocs
+      - solr-data:/opt/solr/server/solr/mycores
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - mycore
     labels:
-      - "traefik.backend=gramps"
-      - "traefik.frontend.rule=Host:gramps.localdomain"
+      - "traefik.backend=solr"
+      - "traefik.port=8983"
+      - "traefik.frontend.rule=Host:solr.localdomain"
 
   traefik:
     image: traefik:latest
@@ -83,7 +95,7 @@ services:
 volumes:
   mariadb:
   omeka:
-  gramps:
+  solr-data:
 
 networks:
   network1:
