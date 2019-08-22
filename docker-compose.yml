@@ -66,8 +66,8 @@ services:
     restart: always
     networks:
       - network1
-    # ports:           # MAM: `ports` is not required since we have traefik.port mapped to Solr's 8983 below.
-    #   - "8983:8983"
+    ports:
+      - "8983:8983"
     volumes:
       - solr-data:/opt/solr/server/solr/mycores
     entrypoint:
