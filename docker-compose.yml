@@ -48,7 +48,7 @@ services:
   omeka:
     depends_on:
       - mariadb
-    image: mcfatem/omeka-s:latest
+    image: mcfatem/omeka-s:gc1.4
     restart: always
     networks:
       - network1
