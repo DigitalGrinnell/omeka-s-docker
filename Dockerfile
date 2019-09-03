@@ -49,7 +49,7 @@ COPY ./omeka-s-master.zip /var/www/
 RUN unzip -q /var/www/omeka-s-master.zip -d /var/www/ \
   &&  rm /var/www/omeka-s-master.zip \
   &&  rm -rf /var/www/html/ \
-  &&  mv /var/www/omeka-s/ /var/www/html/
+  &&  mv /var/www/omeka-s-master/ /var/www/html/
 
 ## Pull the Omeka-S PHP code via git... but leave it in /tmp/omeka-s
 #RUN git clone ${omeka_s_repo} /tmp/omeka-s
