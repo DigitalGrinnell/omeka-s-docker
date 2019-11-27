@@ -1,7 +1,10 @@
 version: "3"
 
-## This is the "omeka", "mariadb" and "pma" (PHPMyAdmin) portions of dodeeric's original docker-compose-traefik.yml modified
-##   for host "dgdocker2" and the "dockerized-server" configuration running there.
+## This is the "mariadb" and "pma" (PHPMyAdmin) portions of dodeeric's original
+##   omeka-s configuration, mixed with a Dockerfile and `docker run` command
+##   lifted from https://hub.docker.com/r/boredland/omeka-s-docker/
+## This is made to run as omeka.localadmin from a `localdomain` "dockerized-server"
+##   configuration.
 
 services:
 
@@ -54,8 +57,10 @@ services:
       - internal
     links:
       - mariadb:db
-    volumes:
-      - omeka:/var/www/html/volume
+    # volumes:
+      # - ./database.ini:/var/www/html/config/database.ini
+      # - ./files:/var/www/html/files
+      # - omeka:/var/www/html
       # - /data/Omeka-S/volume:/var/www/html
     labels:
       - "traefik.backend=omeka"
@@ -99,7 +104,7 @@ services:
 volumes:
   solr-data:
   mariadb:
-  omeka:
+  # omeka:
 
 networks:
   web:
