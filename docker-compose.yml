@@ -1,89 +1,108 @@
-version: "2"
+version: "3"
 
-## This is a modified copy of dodeeric's original docker-compose-traefik.yml with
-## localhost addresses of:
-##
-##   - omeka.localdomain
-##   - pma.localdomain
-##   - gramps.localdomain
-##
-## These addresses need to be defined/enabled locally with an entry in /etc/hosts of:
-##
-##    ### For omeka-s-docker
-##    127.0.0.1    localhost omeka.localdomain pma.localdomain gramps.localdomain
-##
+## This is the "omeka", "mariadb" and "pma" (PHPMyAdmin) portions of dodeeric's original docker-compose-traefik.yml modified
+##   for host "dgdocker2" and the "dockerized-server" configuration running there.
 
 services:
 
   mariadb:
     image: mariadb:latest
+    container_name: mariadb
     restart: always
     networks:
-      - network1
+      - internal
     volumes:
       - mariadb:/var/lib/mysql
+      # - ./omeka.sql:/docker-entrypoint-initdb.d/omeka.sql  ## This line, when enabled, will replace your database with an archive copy.  Use with caution!
     environment:
-      MYSQL_ROOT_PASSWORD: blabla
-      MYSQL_DATABASE: omeka
-      MYSQL_USER: omeka
-      MYSQL_PASSWORD: omeka
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_OMEKA_DATABASE}
+      MYSQL_USER: ${MYSQL_OMEKA_USER}
+      MYSQL_PASSWORD: ${MYSQL_OMEKA_PASSWORD}
 
   pma:
     depends_on:
       - mariadb
     image: phpmyadmin/phpmyadmin:latest
+    container_name: pma
     restart: always
     networks:
-      - network1
+      - web
+      - internal
     links:
       - mariadb:db
     labels:
       - "traefik.backend=pma"
+      - traefik.docker.network=web
+      - traefik.enable=true
       - "traefik.frontend.rule=Host:pma.localdomain"
+## The /path addressing approach attempted below did not work properly.  Switched to new pma2.grinnell.edu subdomain on 11-Sep-2019
+#      - "traefik.frontend.rule=PathPrefixStrip:/pma"
+#      - "traefik.frontend.redirect.regex=^(.*)/pma$$"
+#      - "traefik.frontend.redirect.replacement=$$1/pma/"
+#      - "traefik.frontend.rule=PathPrefix:/pma;ReplacePathRegex: ^/pma/(.*) /$$1"
 
   omeka:
     depends_on:
       - mariadb
-    image: dodeeric/omeka-s:latest
+    build: .
+    # image: mcfatem/omeka-s:gc1.4
+    container_name: omeka
     restart: always
     networks:
-      - network1
+      - web
+      - internal
     links:
       - mariadb:db
     volumes:
       - omeka:/var/www/html/volume
+      # - /data/Omeka-S/volume:/var/www/html
     labels:
       - "traefik.backend=omeka"
+      - traefik.docker.network=web
+      - traefik.enable=true
       - "traefik.frontend.rule=Host:omeka.localdomain"
 
-  gramps:
-    image: httpd:latest
-    restart: always
-    networks:
-      - network1
-    volumes:
-      - gramps:/usr/local/apache2/htdocs
-    labels:
-      - "traefik.backend=gramps"
-      - "traefik.frontend.rule=Host:gramps.localdomain"
+## This is the "solr" portion of dodeeric's original docker-compose-traefik.yml modified
+##   for host "dgdocker2" and the "dockerized-server" configuration running there.
 
-  traefik:
-    image: traefik:latest
+  ## Adding solr per `Using Docker Compose` example at https://docs.docker.com/samples/library/solr/
+
+  solr:
+    image: solr:5.5.5
+    container_name: solr
     restart: always
     networks:
-      - network1
-    command: --web --docker --docker.domain=localdomain
+      - web
+      - internal
     ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
+      - "8983:8983"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - solr-data:/opt/solr/server/solr/mycores
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - mycore
+    labels:
+      - "traefik.backend=solr"
+      - "traefik.port=8983"
+      - traefik.docker.network=web
+      - traefik.enable=true
+      - "traefik.frontend.rule=Host:solr.localdomain"
+## The /path addressing approach attempted below did not work properly.  Switched to new solr2.grinnell.edu subdomain on 11-Sep-2019
+#      - "traefik.frontend.priority=50"
+#      - "traefik.frontend.rule=PathPrefixStrip:/solr"
+#      - "traefik.frontend.redirect.regex=^(.*)/solr$$"
+#      - "traefik.frontend.redirect.replacement=$$1/solr/"
+#      - "traefik.frontend.rule=PathPrefix:/solr;ReplacePathRegex: ^/solr/(.*) /$$1"
 
 volumes:
+  solr-data:
   mariadb:
   omeka:
-  gramps:
 
 networks:
-  network1:
+  web:
+    external: true
+  internal:
+    external: false
