@@ -45,6 +45,19 @@ services:
 #      - "traefik.frontend.redirect.replacement=$$1/pma/"
 #      - "traefik.frontend.rule=PathPrefix:/pma;ReplacePathRegex: ^/pma/(.*) /$$1"
 
+  wiki:
+    image: mediawiki:latest
+    container_name: wiki
+    restart: always
+    networks:
+      - web
+      - internal
+    labels:
+      - "traefik.backend=wiki"
+      - traefik.docker.network=web
+      - traefik.enable=true
+      - "traefik.frontend.rule=Host:wiki.localdomain"
+      
   omeka:
     depends_on:
       - mariadb
