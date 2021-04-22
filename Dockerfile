@@ -42,11 +42,13 @@ RUN rm -rf /var/www/html/modules/ \
 &&  rm /var/www/html/omeka-s-modules-v4.tar.gz
 
 # Add some themes
-COPY ./centerrow-v1.4.0.zip ./cozy-v1.3.1.zip ./thedaily-v1.4.0.zip /var/www/html/themes/
-RUN unzip -q /var/www/html/themes/centerrow-v1.4.0.zip -d /var/www/html/themes/ \
-&&  unzip -q /var/www/html/themes/cozy-v1.3.1.zip -d /var/www/html/themes/ \
-&&  unzip -q /var/www/html/themes/thedaily-v1.4.0.zip -d /var/www/html/themes/ \
-&&  rm /var/www/html/themes/centerrow-v1.4.0.zip /var/www/html/themes/cozy-v1.3.1.zip /var/www/html/themes/thedaily-v1.4.0.zip
+RUN wget -P /var/www/html/themes/ https://github.com/omeka/theme-thedaily/releases/download/v1.5/theme-thedaily-v1.5.zip
+RUN wget -P /var/www/html/themes/ https://github.com/omeka/theme-centerrow/releases/download/v1.5/theme-centerrow-v1.5.zip
+RUN wget -P /var/www/html/themes/ https://github.com/omeka-s-themes/cozy/releases/download/v1.5.0/theme-cozy-v1.5.0.zip
+RUN unzip -q /var/www/html/themes/theme-thedaily-v1.5.zip -d /var/www/html/themes/ \
+&&  unzip -q /var/www/html/themes/theme-centerrow-v1.5.zip -d /var/www/html/themes/ \
+&&  unzip -q /var/www/html/themes/theme-cozy-v1.5.0.zip -d /var/www/html/themes/ \
+&&  rm /var/www/html/themes/theme-thedaily-v1.5.zip /var/www/html/themes/theme-centerrow-v1.5.zip /var/www/html/themes/theme-cozy-v1.5.0.zip
 
 # Create one volume for files and config
 RUN mkdir -p /var/www/html/volume/config/ && mkdir -p /var/www/html/volume/files/
