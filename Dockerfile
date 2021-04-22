@@ -1,4 +1,4 @@
-FROM php:apache
+FROM php:7.4-apache
 
 # Omeka-S web publishing platform for digital heritage collections (https://omeka.org/s/)
 # Initial maintainer: Oldrich Vykydal (o1da) - Klokan Technologies GmbH  
@@ -18,12 +18,13 @@ RUN apt-get -qq update && apt-get -qq -y --no-install-recommends install \
     libmemcached-dev \
     zlib1g-dev \
     imagemagick \
-    libmagickwand-dev
+    libmagickwand-dev \
+	wget
 
 # Install the PHP extensions we need
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
 RUN docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql mysqli gd
-RUN pecl install mcrypt-1.0.2 && docker-php-ext-enable mcrypt && pecl install imagick && docker-php-ext-enable imagick 
+RUN pecl install imagick && docker-php-ext-enable imagick 
 
 # Add the Omeka-S PHP code
 RUN wget -P /var/www/ https://github.com/omeka/omeka-s/releases/download/v3.0.2/omeka-s-3.0.2.zip
@@ -39,7 +40,7 @@ COPY ./.htaccess /var/www/html/.htaccess
 COPY ./omeka-s-3.0-modules.zip /var/www/html/
 RUN rm -rf /var/www/html/modules/ \
 &&  unzip -q /var/www/html/omeka-s-3.0-modules.zip -d/var/www/html/ \
-&&  rm /var/www/html/omeka-s-modules-v4.tar.gz
+&&  rm /var/www/html/omeka-s-3.0-modules.zip
 
 # Add some themes
 RUN wget -P /var/www/html/themes/ https://github.com/omeka/theme-thedaily/releases/download/v1.5/theme-thedaily-v1.5.zip
