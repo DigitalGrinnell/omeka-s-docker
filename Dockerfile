@@ -44,12 +44,12 @@ RUN rm -rf /var/www/html/modules/ \
 
 # Add some themes
 RUN wget -P /var/www/html/themes/ https://github.com/omeka/theme-thedaily/releases/download/v1.5/theme-thedaily-v1.5.zip
-RUN wget -P /var/www/html/themes/ https://github.com/omeka/theme-centerrow/releases/download/v1.5/theme-centerrow-v1.5.zip
 RUN wget -P /var/www/html/themes/ https://github.com/omeka-s-themes/cozy/releases/download/v1.5.0/theme-cozy-v1.5.0.zip
+RUN wget -P /var/www/html/themes/ https://github.com/DigitalGrinnell/centerrow/archive/refs/heads/master.zip
 RUN unzip -q /var/www/html/themes/theme-thedaily-v1.5.zip -d /var/www/html/themes/ \
-&&  unzip -q /var/www/html/themes/theme-centerrow-v1.5.zip -d /var/www/html/themes/ \
+&&  unzip -q /var/www/html/themes/master.zip -d /var/www/html/themes/ \
 &&  unzip -q /var/www/html/themes/theme-cozy-v1.5.0.zip -d /var/www/html/themes/ \
-&&  rm /var/www/html/themes/theme-thedaily-v1.5.zip /var/www/html/themes/theme-centerrow-v1.5.zip /var/www/html/themes/theme-cozy-v1.5.0.zip
+&&  rm /var/www/html/themes/theme-thedaily-v1.5.zip /var/www/html/themes/master.zip /var/www/html/themes/theme-cozy-v1.5.0.zip
 
 # Create one volume for files and config
 RUN mkdir -p /var/www/html/volume/config/ && mkdir -p /var/www/html/volume/files/
