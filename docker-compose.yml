@@ -68,7 +68,7 @@ services:
       - "traefik.frontend.rule=Host:gramps.localdomain"
 
   traefik:
-    image: traefik:latest
+    image: traefik:v1.7.30
     restart: always
     networks:
       - network1
