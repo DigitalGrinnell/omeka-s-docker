@@ -44,7 +44,7 @@ services:
   omeka:
     depends_on:
       - mariadb
-    image: bauderj/omeka-s:latest
+    image: dgteam/omeka-s:latest
     restart: always
     networks:
       - network1
@@ -68,7 +68,7 @@ services:
       - "traefik.frontend.rule=Host:gramps.localdomain"
 
   traefik:
-    image: traefik:latest
+    image: traefik:v1.7.30
     restart: always
     networks:
       - network1
