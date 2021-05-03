@@ -39,7 +39,7 @@ COPY ./.htaccess /var/www/html/.htaccess
 # Add some Omeka modules
 COPY ./omeka-s-3.0-modules.zip /var/www/html/
 RUN rm -rf /var/www/html/modules/ \
-&&  unzip -q /var/www/html/omeka-s-3.0-modules.zip -d/var/www/html/ \
+&&  unzip -q /var/www/html/omeka-s-3.0-modules.zip -d/var/www/html/modules/ \
 &&  rm /var/www/html/omeka-s-3.0-modules.zip
 
 # Add some themes
