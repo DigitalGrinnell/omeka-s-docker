@@ -41,6 +41,17 @@ services:
       - "traefik.backend=pma"
       - "traefik.frontend.rule=Host:pma.localdomain"
 
+  solr:
+    image: solr:latest
+    restart: always
+    networks:
+      - network1
+    volumes:
+      - solr:/var/solr/data
+    labels:
+      - "traefik.backend=solr"
+      - "traefik.frontend.rule=Host:solr.localdomain"
+
   omeka:
     depends_on:
       - mariadb
@@ -84,6 +95,7 @@ volumes:
   mariadb:
   omeka:
   gramps:
+  solr:
 
 networks:
   network1:

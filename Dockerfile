@@ -21,6 +21,9 @@ RUN apt-get -qq update && apt-get -qq -y --no-install-recommends install \
     libmagickwand-dev \
 	wget
 
+#Install Composer, which we need for Solr search
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 # Install the PHP extensions we need
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
 RUN docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql mysqli gd
@@ -41,6 +44,10 @@ COPY ./omeka-s-3.0-modules.zip /var/www/html/
 RUN rm -rf /var/www/html/modules/ \
 &&  unzip -q /var/www/html/omeka-s-3.0-modules.zip -d/var/www/html/modules/ \
 &&  rm /var/www/html/omeka-s-3.0-modules.zip
+
+# Set up the Solr and Search modules
+RUN cd /var/www/html/modules/Search && composer install --no-dev 
+RUN cd /var/www/html/modules/SearchSolr && composer install --no-dev 
 
 # Add some themes
 RUN wget -P /var/www/html/themes/ https://github.com/omeka/theme-thedaily/releases/download/v1.5/theme-thedaily-v1.5.zip
