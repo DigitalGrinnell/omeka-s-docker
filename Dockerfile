@@ -45,10 +45,6 @@ RUN rm -rf /var/www/html/modules/ \
 &&  unzip -q /var/www/html/omeka-s-3.0-modules.zip -d/var/www/html/modules/ \
 &&  rm /var/www/html/omeka-s-3.0-modules.zip
 
-# Set up the Solr and Search modules
-RUN cd /var/www/html/modules/Search && composer install --no-dev 
-RUN cd /var/www/html/modules/SearchSolr && composer install --no-dev 
-
 # Add some themes
 RUN wget -P /var/www/html/themes/ https://github.com/omeka/theme-thedaily/releases/download/v1.5/theme-thedaily-v1.5.zip
 RUN wget -P /var/www/html/themes/ https://github.com/omeka-s-themes/cozy/releases/download/v1.5.0/theme-cozy-v1.5.0.zip
