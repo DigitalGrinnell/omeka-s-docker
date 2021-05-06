@@ -50,7 +50,8 @@ services:
       - solr:/var/solr/data
     labels:
       - "traefik.backend=solr"
-      - "traefik.frontend.rule=Host:solr.localdomain"
+      - "traefik.frontend.rule=Host:localhost"
+      - "traefik.port=8983"
 
   omeka:
     depends_on:
@@ -88,6 +89,7 @@ services:
       - "80:80"
       - "443:443"
       - "8080:8080"
+      - "8983:8983"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
