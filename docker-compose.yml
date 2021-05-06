@@ -50,7 +50,7 @@ services:
       - solr:/var/solr/data
     labels:
       - "traefik.backend=solr"
-      - "traefik.frontend.rule=Host:localhost"
+      - "traefik.frontend.rule=Host:solr.localdomain"
       - "traefik.port=8983"
 
   omeka:
