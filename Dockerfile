@@ -19,15 +19,13 @@ RUN apt-get -qq update && apt-get -qq -y --no-install-recommends install \
     zlib1g-dev \
     imagemagick \
     libmagickwand-dev \
+	libcurl4-gnutls-dev \
 	wget
-
-#Install Composer, which we need for Solr search
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install the PHP extensions we need
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
 RUN docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql mysqli gd
-RUN pecl install imagick && docker-php-ext-enable imagick 
+RUN pecl install imagick && docker-php-ext-enable imagick && pecl install solr && docker-php-ext-enable solr
 
 # Add the Omeka-S PHP code
 RUN wget -P /var/www/ https://github.com/omeka/omeka-s/releases/download/v3.0.2/omeka-s-3.0.2.zip
