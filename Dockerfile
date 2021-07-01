@@ -41,28 +41,24 @@ COPY ./.htaccess /var/www/html/.htaccess
 COPY ./omeka-s-3.0-modules.zip /var/www/html/
 RUN rm -rf /var/www/html/modules/ \
 &&  unzip -q /var/www/html/omeka-s-3.0-modules.zip -d/var/www/html/modules/ \
-&&  rm /var/www/html/omeka-s-3.0-modules.zip
+&&  rm /var/www/html/omeka-s-3.0-modules.zip \
+&& wget -P /var/www/html/modules/ https://github.com/HBLL-Collection-Development/omeka-s-any-cloud/releases/download/v2.0.0/AnyCloudv2.0.0.zip \
+&& unzip -q /var/www/html/modules/AnyCloudv2.0.0.zip -d/var/www/html/modules 
 
 # Add some themes
 RUN wget -P /var/www/html/themes/ https://github.com/omeka/theme-thedaily/releases/download/v1.5/theme-thedaily-v1.5.zip
 RUN wget -P /var/www/html/themes/ https://github.com/omeka-s-themes/cozy/releases/download/v1.5.0/theme-cozy-v1.5.0.zip
 RUN wget -P /var/www/html/themes/ https://github.com/DigitalGrinnell/centerrow/archive/refs/heads/master.zip
+RUN wget -P /var/www/html/themes/ https://github.com/DigitalGrinnell/centerrow/archive/refs/heads/generic.zip
 RUN unzip -q /var/www/html/themes/theme-thedaily-v1.5.zip -d /var/www/html/themes/ \
 &&  unzip -q /var/www/html/themes/master.zip -d /var/www/html/themes/ \
+&&  unzip -q /var/www/html/themes/generic.zip -d /var/www/html/themes/ \
 &&  unzip -q /var/www/html/themes/theme-cozy-v1.5.0.zip -d /var/www/html/themes/ \
-&&  rm /var/www/html/themes/theme-thedaily-v1.5.zip /var/www/html/themes/master.zip /var/www/html/themes/theme-cozy-v1.5.0.zip
+&&  rm /var/www/html/themes/theme-thedaily-v1.5.zip /var/www/html/themes/master.zip /var/www/html/themes/theme-cozy-v1.5.0.zip /var/www/html/themes/generic.zip
 
-# Create one volume for files and config
-RUN mkdir -p /var/www/html/volume/config/ && mkdir -p /var/www/html/volume/files/
-COPY ./database.ini /var/www/html/volume/config/
-RUN rm /var/www/html/config/database.ini \
-&& ln -s /var/www/html/volume/config/database.ini /var/www/html/config/database.ini \
-&& rm -Rf /var/www/html/files/ \
-&& ln -s /var/www/html/volume/files/ /var/www/html/files \
-&& chown -R www-data:www-data /var/www/html/ \
-&& chmod 600 /var/www/html/volume/config/database.ini \
+COPY ./database.ini /var/www/html/config/
+RUN chown -R www-data:www-data /var/www/html/ \
+&& chmod 600 /var/www/html/config/database.ini \
 && chmod 600 /var/www/html/.htaccess
-
-VOLUME /var/www/html/volume/
 
 CMD ["apache2-foreground"]
