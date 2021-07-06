@@ -43,7 +43,16 @@ RUN rm -rf /var/www/html/modules/ \
 &&  unzip -q /var/www/html/omeka-s-3.0-modules.zip -d/var/www/html/modules/ \
 &&  rm /var/www/html/omeka-s-3.0-modules.zip \
 && wget -P /var/www/html/modules/ https://github.com/HBLL-Collection-Development/omeka-s-any-cloud/releases/download/v2.0.0/AnyCloudv2.0.0.zip \
-&& unzip -q /var/www/html/modules/AnyCloudv2.0.0.zip -d/var/www/html/modules 
+&& unzip -q /var/www/html/modules/AnyCloudv2.0.0.zip -d/var/www/html/modules \
+&& wget -P /var/www/html/modules/ https://github.com/Libnamic/Omeka-S-GoogleAnalytics/releases/download/v1.2.1/LibnamicOmekaSGA.zip \
+&& wget -P /var/www/html/modules/ https://gitlab.com/Daniel-KM/Omeka-S-module-EUCookieBar/-/archive/3.3.4.3/Omeka-S-module-EUCookieBar-3.3.4.3.zip \
+&& unzip -q /var/www/html/modules/LibnamicOmekaSGA.zip -d/var/www/html/modules \
+&& rm /var/www/html/modules/LibnamicOmekaSGA.zip \
+&& mv /var/www/html/modules/LibnamicOmekaSGA/GoogleAnalyticsconfig /var/www/html/modules/LibnamicOmekaSGA/config \
+&& mv /var/www/html/modules/LibnamicOmekaSGA/GoogleAnalyticssrc /var/www/html/modules/LibnamicOmekaSGA/src \
+&& mv /var/www/html/modules/LibnamicOmekaSGA/GoogleAnalyticsModule.php /var/www/html/modules/LibnamicOmekaSGA/Module.php \
+&& unzip -q /var/www/html/modules/Omeka-S-module-EUCookieBar-3.3.4.3.zip -d/var/www/html/modules \
+&& rm /var/www/html/modules/Omeka-S-module-EUCookieBar-3.3.4.3.zip
 
 # Add some themes
 RUN wget -P /var/www/html/themes/ https://github.com/omeka/theme-thedaily/releases/download/v1.5/theme-thedaily-v1.5.zip
@@ -56,9 +65,10 @@ RUN unzip -q /var/www/html/themes/theme-thedaily-v1.5.zip -d /var/www/html/theme
 &&  unzip -q /var/www/html/themes/theme-cozy-v1.5.0.zip -d /var/www/html/themes/ \
 &&  rm /var/www/html/themes/theme-thedaily-v1.5.zip /var/www/html/themes/master.zip /var/www/html/themes/theme-cozy-v1.5.0.zip /var/www/html/themes/generic.zip
 
-COPY ./database.ini /var/www/html/config/
+COPY ./set-up-database.sh /usr/local/
 RUN chown -R www-data:www-data /var/www/html/ \
-&& chmod 600 /var/www/html/config/database.ini \
+#&& chmod 600 /var/www/html/config/database.ini \
 && chmod 600 /var/www/html/.htaccess
 
-CMD ["apache2-foreground"]
+CMD ["/usr/local/set-up-database.sh"]
+#CMD ["apache2-foreground"]
