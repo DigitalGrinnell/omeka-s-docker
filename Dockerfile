@@ -36,6 +36,7 @@ RUN unzip -q /var/www/omeka-s-3.0.2.zip -d /var/www/ \
 
 COPY ./imagemagick-policy.xml /etc/ImageMagick/policy.xml
 COPY ./.htaccess /var/www/html/.htaccess
+#COPY ./reindex_by_cron.php /home/reindex_by_cron.php
 
 # Add some Omeka modules
 COPY ./omeka-s-3.0-modules.zip /var/www/html/
@@ -55,7 +56,11 @@ RUN rm -rf /var/www/html/modules/ \
 && mv /var/www/html/modules/LibnamicOmekaSGA/ /var/www/html/modules/GoogleAnalytics/ \
 && unzip -q /var/www/html/modules/Omeka-S-module-EUCookieBar-3.3.4.3.zip -d/var/www/html/modules \
 && mv /var/www/html/modules/Omeka-S-module-EUCookieBar-3.3.4.3/ /var/www/html/modules/EUCookieBar/ \
-&& rm /var/www/html/modules/Omeka-S-module-EUCookieBar-3.3.4.3.zip 
+&& rm /var/www/html/modules/Omeka-S-module-EUCookieBar-3.3.4.3.zip \
+&& wget -P /var/www/html/modules/ https://github.com/omeka-s-modules/ItemCarouselBlock/archive/refs/heads/master.zip \
+&& unzip -q /var/www/html/modules/master.zip -d/var/www/html/modules \
+&& mv /var/www/html/modules/ItemCarouselBlock-master/ /var/www/html/modules/ItemCarouselBlock/ \
+&& rm /var/www/html/modules/master.zip
 
 # Add some themes
 RUN wget -P /var/www/html/themes/ https://github.com/omeka/theme-thedaily/releases/download/v1.5/theme-thedaily-v1.5.zip
