@@ -36,7 +36,6 @@ RUN unzip -q /var/www/omeka-s-3.0.2.zip -d /var/www/ \
 
 COPY ./imagemagick-policy.xml /etc/ImageMagick/policy.xml
 COPY ./.htaccess /var/www/html/.htaccess
-#COPY ./reindex_by_cron.php /home/reindex_by_cron.php
 
 # Add some Omeka modules
 COPY ./omeka-s-3.0-modules.zip /var/www/html/
