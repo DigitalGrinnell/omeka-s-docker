@@ -72,6 +72,7 @@ RUN unzip -q /var/www/html/themes/theme-thedaily-v1.5.zip -d /var/www/html/theme
 &&  unzip -q /var/www/html/themes/theme-cozy-v1.5.0.zip -d /var/www/html/themes/ \
 &&  rm /var/www/html/themes/theme-thedaily-v1.5.zip /var/www/html/themes/master.zip /var/www/html/themes/theme-cozy-v1.5.0.zip /var/www/html/themes/generic.zip
 
+COPY ./robots.txt /var/www/html/
 COPY ./set-up-database.sh /usr/local/
 RUN chown -R www-data:www-data /var/www/html/ \
 #&& chmod 600 /var/www/html/config/database.ini \
