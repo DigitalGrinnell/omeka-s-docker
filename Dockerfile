@@ -49,10 +49,6 @@ RUN rm -rf /var/www/html/modules/ \
 && wget -P /var/www/html/modules/ https://gitlab.com/Daniel-KM/Omeka-S-module-EUCookieBar/-/archive/3.3.4.3/Omeka-S-module-EUCookieBar-3.3.4.3.zip \
 && unzip -q /var/www/html/modules/LibnamicOmekaSGA.zip -d/var/www/html/modules \
 && rm /var/www/html/modules/LibnamicOmekaSGA.zip \
-&& mv /var/www/html/modules/LibnamicOmekaSGA/GoogleAnalyticsconfig /var/www/html/modules/LibnamicOmekaSGA/config \
-&& mv /var/www/html/modules/LibnamicOmekaSGA/GoogleAnalyticssrc /var/www/html/modules/LibnamicOmekaSGA/src \
-&& mv /var/www/html/modules/LibnamicOmekaSGA/GoogleAnalyticsModule.php /var/www/html/modules/LibnamicOmekaSGA/Module.php \
-&& mv /var/www/html/modules/LibnamicOmekaSGA/ /var/www/html/modules/GoogleAnalytics/ \
 && unzip -q /var/www/html/modules/Omeka-S-module-EUCookieBar-3.3.4.3.zip -d/var/www/html/modules \
 && mv /var/www/html/modules/Omeka-S-module-EUCookieBar-3.3.4.3/ /var/www/html/modules/EUCookieBar/ \
 && rm /var/www/html/modules/Omeka-S-module-EUCookieBar-3.3.4.3.zip \
