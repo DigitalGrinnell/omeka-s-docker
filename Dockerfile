@@ -45,10 +45,10 @@ RUN rm -rf /var/www/html/modules/ \
 && wget -P /var/www/html/modules/ https://github.com/HBLL-Collection-Development/omeka-s-any-cloud/releases/download/v2.0.0/AnyCloudv2.0.0.zip \
 && unzip -q /var/www/html/modules/AnyCloudv2.0.0.zip -d/var/www/html/modules \
 && rm /var/www/html/modules/AnyCloudv2.0.0.zip \
-&& wget -P /var/www/html/modules/ https://github.com/Libnamic/Omeka-S-GoogleAnalytics/releases/download/v1.2.1/LibnamicOmekaSGA.zip \
+&& wget -P /var/www/html/modules/ https://github.com/Libnamic/Omeka-S-GoogleAnalytics/releases/download/v1.3/GoogleAnalytics.zip \
 && wget -P /var/www/html/modules/ https://gitlab.com/Daniel-KM/Omeka-S-module-EUCookieBar/-/archive/3.3.4.3/Omeka-S-module-EUCookieBar-3.3.4.3.zip \
-&& unzip -q /var/www/html/modules/LibnamicOmekaSGA.zip -d/var/www/html/modules \
-&& rm /var/www/html/modules/LibnamicOmekaSGA.zip \
+&& unzip -q /var/www/html/modules/GoogleAnalytics.zip -d/var/www/html/modules \
+&& rm /var/www/html/modules/GoogleAnalytics.zip \
 && unzip -q /var/www/html/modules/Omeka-S-module-EUCookieBar-3.3.4.3.zip -d/var/www/html/modules \
 && mv /var/www/html/modules/Omeka-S-module-EUCookieBar-3.3.4.3/ /var/www/html/modules/EUCookieBar/ \
 && rm /var/www/html/modules/Omeka-S-module-EUCookieBar-3.3.4.3.zip \
