@@ -23,7 +23,7 @@ RUN apt-get -qq update && apt-get -qq -y --no-install-recommends install \
 	wget
 
 # Install the PHP extensions we need
-RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install -j$(nproc) iconv pdo pdo_mysql mysqli gd
 RUN pecl install imagick && docker-php-ext-enable imagick && pecl install solr && docker-php-ext-enable solr
 
