@@ -41,10 +41,22 @@ services:
       - "traefik.backend=pma"
       - "traefik.frontend.rule=Host:pma.localdomain"
 
+  solr:
+    image: solr:latest
+    restart: always
+    networks:
+      - network1
+    volumes:
+      - solr:/var/solr/data
+    labels:
+      - "traefik.backend=solr"
+      - "traefik.frontend.rule=Host:solr.localdomain"
+      - "traefik.port=8983"
+
   omeka:
     depends_on:
       - mariadb
-    image: dodeeric/omeka-s:latest
+    image: dgteam/omeka-s:latest
     restart: always
     networks:
       - network1
@@ -68,7 +80,7 @@ services:
       - "traefik.frontend.rule=Host:gramps.localdomain"
 
   traefik:
-    image: traefik:latest
+    image: traefik:v1.7.30
     restart: always
     networks:
       - network1
@@ -77,6 +89,7 @@ services:
       - "80:80"
       - "443:443"
       - "8080:8080"
+      - "8983:8983"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -84,6 +97,7 @@ volumes:
   mariadb:
   omeka:
   gramps:
+  solr:
 
 networks:
   network1:
