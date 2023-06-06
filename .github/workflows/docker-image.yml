@@ -15,4 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
+      secrets: |
+         "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}" 
+         "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}"
+         "DATABASE_NAME=${{ secrets.DATABASE_NAME }}"
+         "DATABASE_HOST=${{ secrets.DATABASE_HOST }}"
+         "DATABASE_PORT=${{ secrets.DATABASE_PORT }}"
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
