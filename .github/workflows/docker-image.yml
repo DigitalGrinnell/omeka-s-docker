@@ -15,7 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      secrets: |
+      with:
+        secrets: |
          "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}" 
          "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}"
          "DATABASE_NAME=${{ secrets.DATABASE_NAME }}"
