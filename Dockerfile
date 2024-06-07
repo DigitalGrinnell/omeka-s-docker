@@ -112,5 +112,5 @@ RUN chown -R www-data:www-data /var/www/html/ \
 #&& chmod 600 /var/www/html/config/database.ini \
 && chmod 600 /var/www/html/.htaccess
 
-#CMD ["/usr/local/set-up-database.sh"]
+CMD ["/usr/local/set-up-database.sh"]
 #CMD ["apache2-foreground"]
