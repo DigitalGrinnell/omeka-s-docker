@@ -89,9 +89,9 @@ RUN wget -P /var/www/html/modules/ https://github.com/HBLL-Collection-Developmen
 && wget -P /var/www/html/modules/ https://github.com/biblibre/omeka-s-module-Search/releases/download/v0.15.4/Search-0.15.4.zip \
 && unzip -q /var/www/html/modules/Search-0.15.4.zip -d /var/www/html/modules \
 && rm /var/www/html/modules/Search-0.15.4.zip \
-&& wget -P /var/www/html/modules/  https://github.com/biblibre/omeka-s-module-Solr/releases/download/v0.14.0/Solr-0.14.0.zip \
-&& unzip -q /var/www/html/modules/Solr-0.14.0.zip -d /var/www/html/modules \
-&& rm /var/www/html/modules/Solr-0.14.0.zip
+&& wget -P /var/www/html/modules/  https://github.com/biblibre/omeka-s-module-Solr/releases/download/v0.9.0/Solr-0.9.0.zip \
+&& unzip -q /var/www/html/modules/Solr-0.9.0.zip -d /var/www/html/modules \
+&& rm /var/www/html/modules/Solr-0.9.0.zip
 
 # Add some themes
 RUN wget -P /var/www/html/themes/ https://github.com/omeka/theme-thedaily/releases/download/v1.5/theme-thedaily-v1.5.zip
@@ -109,7 +109,7 @@ COPY ./robots.txt /var/www/html/
 COPY ./google4399bb9e69fcbe34.html /var/www/html/
 COPY ./set-up-database.sh /usr/local/
 RUN chown -R www-data:www-data /var/www/html/ \
-#&& chmod 600 /var/www/html/config/database.ini \
+&& chmod 600 /var/www/html/config/database.ini \
 && chmod 600 /var/www/html/.htaccess
 
 CMD ["/usr/local/set-up-database.sh"]
