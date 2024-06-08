@@ -48,10 +48,9 @@ RUN wget -P /var/www/html/modules/ https://github.com/HBLL-Collection-Developmen
 && unzip -q /var/www/html/modules/Omeka-S-module-EUCookieBar-3.4.4.zip -d/var/www/html/modules \
 && mv /var/www/html/modules/Omeka-S-module-EUCookieBar-3.4.4/ /var/www/html/modules/EUCookieBar/ \
 && rm /var/www/html/modules/Omeka-S-module-EUCookieBar-3.4.4.zip \
-&& wget -P /var/www/html/modules/ https://github.com/omeka-s-modules/ItemCarouselBlock/archive/refs/heads/master.zip \
-&& unzip -q /var/www/html/modules/master.zip -d/var/www/html/modules \
-&& mv /var/www/html/modules/ItemCarouselBlock-master/ /var/www/html/modules/ItemCarouselBlock/ \
-&& rm /var/www/html/modules/master.zip \
+&& wget -P /var/www/html/modules/ https://github.com/omeka-s-modules/ItemCarouselBlock/releases/download/v1.0.1/ItemCarouselBlock-1.0.1.zip \
+&& unzip -q /var/www/html/modules/ItemCarouselBlock-1.0.1.zip -d/var/www/html/modules \
+&& rm /var/www/html/modules/ItemCarouselBlock-1.0.1.zip \
 && wget -P /var/www/html/modules/ https://github.com/Daniel-KM/Omeka-S-module-BulkEdit/releases/download/3.4.18/BulkEdit-3.4.18.zip \
 && unzip -q /var/www/html/modules/BulkEdit-3.4.18.zip -d/var/www/html/modules \
 && rm /var/www/html/modules/BulkEdit-3.4.18.zip \
