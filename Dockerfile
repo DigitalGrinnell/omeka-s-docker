@@ -54,15 +54,15 @@ RUN wget -P /var/www/html/modules/ https://github.com/HBLL-Collection-Developmen
 && wget -P /var/www/html/modules/ https://github.com/Daniel-KM/Omeka-S-module-BulkEdit/releases/download/3.4.18/BulkEdit-3.4.18.zip \
 && unzip -q /var/www/html/modules/BulkEdit-3.4.18.zip -d/var/www/html/modules \
 && rm /var/www/html/modules/BulkEdit-3.4.18.zip \
-&& wget -P /var/www/html/modules https://github.com/Daniel-KM/Omeka-s-module-BulkExport/releases/download/3.4.20/BulkExport-3.4.20.zip \
-&& unzip -q /var/www/html/modules/BulkExport-3.4.20.zip -d /var/www/html/modules \
-&& rm /var/www/html/modules/BulkExport-3.4.20.zip \ 
+&& wget -P /var/www/html/modules https://github.com/Daniel-KM/Omeka-s-module-BulkExport/releases/download/3.4.15/BulkExport-3.4.15.zip \
+&& unzip -q /var/www/html/modules/BulkExport-3.4.15.zip -d /var/www/html/modules \
+&& rm /var/www/html/modules/BulkExport-3.4.15.zip \ 
 && wget -P /var/www/html/modules/ https://github.com/omeka-s-modules/CSVImport/releases/download/v2.3.2/CSVImport-2.3.2.zip \
 && unzip -q /var/www/html/modules/CSVImport-2.3.2.zip -d /var/www/html/modules \
 && rm /var/www/html/modules/CSVImport-2.3.2.zip \
-&& wget -P /var/www/html/modules/ https://github.com/omeka-s-modules/CustomVocab/releases/download/v1.5.0/CustomVocab-1.5.0.zip \
-&& unzip -q /var/www/html/modules/CustomVocab-1.5.0.zip -d /var/www/html/modules \
-&& rm /var/www/html/modules/CustomVocab-1.5.0.zip \
+&& wget -P /var/www/html/modules/ https://github.com/omeka-s-modules/CustomVocab/releases/download/v1.6.0/CustomVocab-1.6.0.zip \
+&& unzip -q /var/www/html/modules/CustomVocab-1.6.0.zip -d /var/www/html/modules \
+&& rm /var/www/html/modules/CustomVocab-1.6.0.zip \
 && wget -P /var/www/html/modules/ https://github.com/Daniel-KM/Omeka-S-module-EasyAdmin/releases/download/3.4.15/EasyAdmin-3.4.15.zip \
 && unzip -q /var/www/html/modules/EasyAdmin-3.4.15.zip -d /var/www/html/modules \
 && rm /var/www/html/modules/EasyAdmin-3.4.15.zip \
