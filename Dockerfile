@@ -104,6 +104,10 @@ RUN unzip -q /var/www/html/themes/theme-thedaily-v1.5.zip -d /var/www/html/theme
 &&  unzip -q /var/www/html/themes/theme-cozy-v1.5.0.zip -d /var/www/html/themes/ \
 &&  rm /var/www/html/themes/theme-thedaily-v1.5.zip /var/www/html/themes/9467e276bd959665cebe48c2d8bd48dc93663fda.zip /var/www/html/themes/theme-cozy-v1.5.0.zip /var/www/html/themes/generic.zip
 
+#Fix Bulk Export until we can upgrade to the newest version
+RUN rm /var/www/html/modules/BulkExport/src/Traits/ListTermsTrait.php
+COPY ./ListTermsTrait.php /var/www/html/modules/BulkExport/src/Trait/
+
 COPY ./robots.txt /var/www/html/
 COPY ./google4399bb9e69fcbe34.html /var/www/html/
 COPY ./set-up-database.sh /usr/local/
