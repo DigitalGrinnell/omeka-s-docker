@@ -106,7 +106,7 @@ RUN unzip -q /var/www/html/themes/theme-thedaily-v1.5.zip -d /var/www/html/theme
 
 #Fix Bulk Export until we can upgrade to the newest version
 RUN rm /var/www/html/modules/BulkExport/src/Traits/ListTermsTrait.php
-COPY ./ListTermsTrait.php /var/www/html/modules/BulkExport/src/Trait/
+COPY ./ListTermsTrait.php /var/www/html/modules/BulkExport/src/Traits/
 
 COPY ./robots.txt /var/www/html/
 COPY ./google4399bb9e69fcbe34.html /var/www/html/
